@@ -54,7 +54,7 @@ class _CounterPageState extends State<CounterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter Counter App'),
+        title: const Text('Counter App'),
         centerTitle: true,
       ),
       body: Center(
