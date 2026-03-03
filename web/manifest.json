@@ -1,6 +1,6 @@
 {
-    "name": "counter_update_app",
-    "short_name": "counter_update_app",
+    "name": "build_a_photo_gallery",
+    "short_name": "build_a_photo_gallery",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = counter_update_app
+PRODUCT_NAME = build_a_photo_gallery
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.counterapp.counterUpdateApp
+PRODUCT_BUNDLE_IDENTIFIER = com.example.buildAPhotoGallery
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2026 com.counter_app. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2026 com.example. All rights reserved.

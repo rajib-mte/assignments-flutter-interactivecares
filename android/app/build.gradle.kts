@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.counter_app.counter_update_app"
+    namespace = "com.example.build_a_photo_gallery"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.counter_app.counter_update_app"
+        applicationId = "com.example.build_a_photo_gallery"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion

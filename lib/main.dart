@@ -1,6 +1,4 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,280 +7,115 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: TasbihScreen(),
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        // This is the theme of your application.
+        //
+        // TRY THIS: Try running your application with "flutter run". You'll see
+        // the application has a purple toolbar. Then, without quitting the app,
+        // try changing the seedColor in the colorScheme below to Colors.green
+        // and then invoke "hot reload" (save your changes or press the "hot
+        // reload" button in a Flutter-supported IDE, or press "r" if you used
+        // the command line to start the app).
+        //
+        // Notice that the counter didn't reset back to zero; the application
+        // state is not lost during the reload. To reset the state, use hot
+        // restart instead.
+        //
+        // This works for code too, not just values: Most code changes can be
+        // tested with just a hot reload.
+        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+      ),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-class TasbihScreen extends StatefulWidget {
-  const TasbihScreen({super.key});
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+
+  // This widget is the home page of your application. It is stateful, meaning
+  // that it has a State object (defined below) that contains fields that affect
+  // how it looks.
+
+  // This class is the configuration for the state. It holds the values (in this
+  // case the title) provided by the parent (in this case the App widget) and
+  // used by the build method of the State. Fields in a Widget subclass are
+  // always marked "final".
+
+  final String title;
 
   @override
-  State<TasbihScreen> createState() => _TasbihScreenState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _TasbihScreenState extends State<TasbihScreen> {
-  int counter = 0;
-  int seconds = 0;
-  Timer? timer;
-  bool isRunning = false;
-  int selectedTheme = 0;
+class _MyHomePageState extends State<MyHomePage> {
+  int _counter = 0;
 
-  final List<String> themes = [
-    "https://images.unsplash.com/photo-1609599006353-e629aaabfeae",
-    "https://images.unsplash.com/photo-1587613751220-4b0c3b2b87f4"
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-    loadData();
-  }
-
-  // ================= LOAD FROM STORAGE =================
-  Future<void> loadData() async {
-    final prefs = await SharedPreferences.getInstance();
+  void _incrementCounter() {
     setState(() {
-      counter = prefs.getInt("counter") ?? 0;
-      selectedTheme = prefs.getInt("theme") ?? 0;
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      _counter++;
     });
   }
 
-  // ================= SAVE TO STORAGE =================
-  Future<void> saveCounter() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setInt("counter", counter);
-  }
-
-  Future<void> saveTheme() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setInt("theme", selectedTheme);
-  }
-
-  // ================= TIMER =================
-  void startTimer() {
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        seconds++;
-      });
-    });
-    isRunning = true;
-  }
-
-  void stopTimer() {
-    timer?.cancel();
-    isRunning = false;
-  }
-
-  void resetAll() {
-    stopTimer();
-    setState(() {
-      counter = 0;
-      seconds = 0;
-    });
-    saveCounter();
-  }
-
-  String formatTime(int totalSeconds) {
-    int minutes = totalSeconds ~/ 60;
-    int sec = totalSeconds % 60;
-    return "${minutes.toString().padLeft(2, '0')}:${sec.toString().padLeft(2, '0')}";
-  }
-
-  // ================= UI =================
   @override
   Widget build(BuildContext context) {
+    // This method is rerun every time setState is called, for instance as done
+    // by the _incrementCounter method above.
+    //
+    // The Flutter framework has been optimized to make rerunning build methods
+    // fast, so that you can just rebuild anything that needs updating rather
+    // than having to individually change instances of widgets.
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
-        title: const Text("Tasbih Counter"),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 0,
+        // TRY THIS: Try changing the color here to a specific color (to
+        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
+        // change color while the other colors stay the same.
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        // Here we take the value from the MyHomePage object that was created by
+        // the App.build method, and use it to set our appbar title.
+        title: Text(widget.title),
       ),
-      body: SingleChildScrollView(
+      body: Center(
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
         child: Column(
+          // Column is also a layout widget. It takes a list of children and
+          // arranges them vertically. By default, it sizes itself to fit its
+          // children horizontally, and tries to be as tall as its parent.
+          //
+          // Column has various properties to control how it sizes itself and
+          // how it positions its children. Here we use mainAxisAlignment to
+          // center the children vertically; the main axis here is the vertical
+          // axis because Columns are vertical (the cross axis would be
+          // horizontal).
+          //
+          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
+          // action in the IDE, or press "p" in the console), to see the
+          // wireframe for each widget.
+          mainAxisAlignment: .center,
           children: [
-
-            /// MAIN CARD
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  counter++;
-                });
-                saveCounter();
-              },
-              child: Container(
-                margin: const EdgeInsets.all(16),
-                height: 450,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: Colors.deepPurple,
-                ),
-                child: Stack(
-                  children: [
-
-                    /// Background Image
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(25),
-                      child: Opacity(
-                        opacity: 0.3,
-                        child: Image.network(
-                          themes[selectedTheme],
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: double.infinity,
-                        ),
-                      ),
-                    ),
-
-                    /// Content
-                    Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-
-                          const Text(
-                            "الله أكبر",
-                            style: TextStyle(
-                                fontSize: 28,
-                                color: Colors.white),
-                          ),
-
-                          const SizedBox(height: 10),
-
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 6),
-                            decoration: BoxDecoration(
-                              color: Colors.white24,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Text(
-                              formatTime(seconds),
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                          ),
-
-                          const SizedBox(height: 20),
-
-                          const Text(
-                            "Tasbih Counter",
-                            style: TextStyle(
-                                fontSize: 24,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-
-                          const SizedBox(height: 20),
-
-                          Text(
-                            counter.toString().padLeft(3, '0'),
-                            style: const TextStyle(
-                                fontSize: 40,
-                                color: Colors.white),
-                          ),
-
-                          const SizedBox(height: 20),
-
-                          /// CONTROL BUTTONS
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-
-                              IconButton(
-                                icon: const Icon(Icons.refresh),
-                                color: Colors.white,
-                                onPressed: resetAll,
-                              ),
-
-                              const SizedBox(width: 20),
-
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  foregroundColor: Colors.deepPurple,
-                                ),
-                                onPressed: () {
-                                  if (isRunning) {
-                                    stopTimer();
-                                  } else {
-                                    startTimer();
-                                  }
-                                  setState(() {});
-                                },
-                                child: Text(isRunning ? "Stop" : "Start"),
-                              ),
-
-                              const SizedBox(width: 20),
-
-                              IconButton(
-                                icon: const Icon(Icons.pause),
-                                color: Colors.white,
-                                onPressed: stopTimer,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            const Text('You have pushed the button this many times:'),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
-
-            /// THEME SECTION
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Add Theme",
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 10),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: List.generate(themes.length, (index) {
-                  return Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedTheme = index;
-                        });
-                        saveTheme();
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.only(right: 10),
-                        height: 120,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          image: DecorationImage(
-                            image: NetworkImage(themes[index]),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                }),
-              ),
-            ),
-
-            const SizedBox(height: 20),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
       ),
     );
   }
